@@ -81,7 +81,7 @@ def build(OUT, NDIST=40):
         orig = save(base, f'Camera/2023/IMG_{1000+n}.JPG', quality=95, exif=exif_for(dto), role='original', photo=pid); group.append(orig)
         # S1 exact copy, different name & folder
         p = os.path.join(LIB, f'Backup/Phone dump/photo_{n:03d}.jpg'); os.makedirs(os.path.dirname(p), exist_ok=True)
-        shutil.copyfile(os.path.join(LIB, orig), p); rel = os.path.relpath(p, LIB)
+        shutil.copyfile(os.path.join(LIB, orig), p); rel = os.path.relpath(p, LIB).replace(os.sep, "/")
         truth['files'][rel] = {'photo': pid, 'role': 'exact'}; group.append(rel)
         # S2 resized
         group.append(save(resize(base, 0.4), f'Exports/Small/{pid}_small.jpg', quality=85, role='resized', photo=pid))
