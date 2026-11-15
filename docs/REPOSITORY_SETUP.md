@@ -3,7 +3,17 @@
 These settings can only be changed by the repository owner in GitHub's web interface. Work through them **in this
 order**, ideally after the "Security hardening" pull request has been merged. It takes about 15 minutes.
 
-## 1. Branch and tag rules (rulesets)
+## 1. Security features (do this first)
+
+**Settings → Advanced Security** (called *Code security* on some accounts)
+
+- Enable **Private vulnerability reporting**.
+- Enable **Dependency graph**, **Dependabot alerts**, **Dependabot security updates** and **Grouped security updates**.
+  The *dependency-review* check needs the dependency graph, and the branch rules below require that check.
+- Keep **Secret Protection** and **Push protection** enabled. They are already on.
+- **CodeQL:** leave *Default setup* off. The repository uses its own CodeQL workflow (advanced setup).
+
+## 2. Branch and tag rules (rulesets)
 
 **Settings → Rules → Rulesets**
 
@@ -27,7 +37,7 @@ order**, ideally after the "Security hardening" pull request has been merged. It
    them, their "do not allow bypassing" setting combines with the new rules and blocks you from merging your own
    pull requests.
 
-## 2. Pull request settings
+## 3. Pull request settings
 
 **Settings → General → Pull Requests**
 
@@ -39,7 +49,7 @@ order**, ideally after the "Security hardening" pull request has been merged. It
 **Settings → General → Features:** untick **Wikis**. The wiki isn't used and is edited outside the pull request
 workflow. Untick **Projects** as well if you don't use it.
 
-## 3. GitHub Actions
+## 4. GitHub Actions
 
 **Settings → Actions → General**
 
@@ -57,15 +67,6 @@ workflow. Untick **Projects** as well if you don't use it.
 - **Deployment branches and tags:** *Selected branches and tags* → add a **tag** rule `v*`.
 
 From now on, every release waits for you to click **Review deployments → Approve** before anything is published.
-
-## 4. Security features
-
-**Settings → Advanced Security** (called *Code security* on some accounts)
-
-- Enable **Private vulnerability reporting**.
-- Enable **Dependency graph**, **Dependabot alerts**, **Dependabot security updates** and **Grouped security updates**.
-- Keep **Secret Protection** and **Push protection** enabled. They are already on.
-- **CodeQL:** leave *Default setup* off. The repository uses its own CodeQL workflow (advanced setup).
 
 ## 5. Your account and access
 
