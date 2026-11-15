@@ -1,0 +1,24 @@
+version: 2
+updates:
+  # Keeps the SHA-pinned GitHub Actions up to date (one grouped pull request per week).
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ["*"]
+    commit-message:
+      prefix: ci
+
+  # Watches the dependency ranges. After merging, regenerate the hash locks with tools/update_locks.sh.
+  - package-ecosystem: pip
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      python:
+        patterns: ["*"]
+    commit-message:
+      prefix: deps
