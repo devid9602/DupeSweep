@@ -1,0 +1,6 @@
+numpy>=2.0
+Pillow>=10.3
+pillow-heif>=0.18
+PySide6-Essentials>=6.7,<6.9
+Send2Trash>=1.8
+rawpy>=0.21

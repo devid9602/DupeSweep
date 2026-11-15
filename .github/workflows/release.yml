@@ -1,0 +1,67 @@
+name: Release builds
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: windows-latest, name: Windows-x64 }
+          - { os: macos-15-intel, name: macOS-Intel }
+          - { os: macos-latest, name: macOS-AppleSilicon }
+          - { os: ubuntu-22.04, name: Linux-x64 }
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Qt system libraries (Linux)
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y libegl1 libgl1 libxkbcommon0 libdbus-1-3 libfontconfig1 libxcb-cursor0
+      - run: python -m pip install -r requirements.txt pyinstaller
+      - name: Build
+        shell: bash
+        run: |
+          ICON=assets/icon.ico
+          if [ "$RUNNER_OS" = "macOS" ]; then ICON=assets/icon.icns; fi
+          pyinstaller --noconfirm --clean --windowed --name DupeSweep --icon "$ICON" \
+            --add-data "assets:assets" --collect-all pillow_heif --collect-submodules rawpy \
+            --exclude-module cv2 --exclude-module scipy --exclude-module pandas --exclude-module matplotlib \
+            --exclude-module skimage --exclude-module sklearn --exclude-module imageio --exclude-module imageio_ffmpeg \
+            --exclude-module tkinter --exclude-module IPython --exclude-module pytest run_dupesweep.py
+      - name: Check that the packaged app starts
+        shell: bash
+        run: |
+          if [ "$RUNNER_OS" = "macOS" ]; then dist/DupeSweep.app/Contents/MacOS/DupeSweep --smoke
+          elif [ "$RUNNER_OS" = "Windows" ]; then dist/DupeSweep/DupeSweep.exe --smoke
+          else QT_QPA_PLATFORM=offscreen dist/DupeSweep/DupeSweep --smoke; fi
+      - name: Package
+        shell: bash
+        run: |
+          cd dist
+          if [ "$RUNNER_OS" = "macOS" ]; then ditto -c -k --keepParent DupeSweep.app "DupeSweep-${{ matrix.name }}.zip"
+          elif [ "$RUNNER_OS" = "Windows" ]; then 7z a "DupeSweep-${{ matrix.name }}.zip" DupeSweep
+          else tar czf "DupeSweep-${{ matrix.name }}.tar.gz" DupeSweep; fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DupeSweep-${{ matrix.name }}
+          path: |
+            dist/DupeSweep-*.zip
+            dist/DupeSweep-*.tar.gz
+      - name: Attach to the GitHub release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/DupeSweep-*.zip
+            dist/DupeSweep-*.tar.gz
