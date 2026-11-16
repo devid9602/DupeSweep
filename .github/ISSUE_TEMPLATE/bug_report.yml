@@ -1,0 +1,38 @@
+name: Bug report
+description: Something doesn't work as expected
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: "**Security problems:** please don't use this form. See the Security policy instead."
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you did, what you expected, and what happened instead.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: DupeSweep version
+      placeholder: "1.0.1 (Help → About)"
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options: [Windows 11, Windows 10, macOS (Apple Silicon), macOS (Intel), Linux, Other]
+    validations:
+      required: true
+  - type: input
+    id: osversion
+    attributes:
+      label: OS version
+      placeholder: "e.g. macOS 12.7.6, Windows 11 24H2, Ubuntu 24.04"
+  - type: textarea
+    id: details
+    attributes:
+      label: Extra details
+      description: Error messages, screenshots, or the kind of image files involved. Please don't attach private photos.
