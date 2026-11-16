@@ -10,7 +10,7 @@ Thank you for helping. This page explains how changes get into DupeSweep.
     CodeQL code scanning and dependency review;
   - an approving review from the code owner (@devid9602). A new push dismisses earlier approvals;
   - every review conversation resolved.
-- Pull requests are merged with **squash merge**, so `main` keeps a clean, linear history.
+- Pull requests are normally merged with **squash merge**. Merge commits are allowed only for promoting `develop` into `main`.
 - Release tags (`v*`) can only be created by the owner.
 
 ## Making a change

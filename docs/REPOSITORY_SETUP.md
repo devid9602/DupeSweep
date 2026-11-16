@@ -1,7 +1,18 @@
 # Repository security setup (owner checklist)
 
-These settings can only be changed by the repository owner in GitHub's web interface. Work through them **in this
-order**, ideally after the "Security hardening" pull request has been merged. It takes about 15 minutes.
+Only the repository owner can change these settings.
+
+**Quick way (recommended):** [`tools/protect-all-repos.sh`](../tools/protect-all-repos.sh) applies sections 1–4 to every
+repository you own in one go. It needs the [GitHub CLI](https://cli.github.com) (`gh auth login`).
+
+```bash
+bash tools/protect-all-repos.sh            # preview – changes nothing
+bash tools/protect-all-repos.sh --apply    # apply
+```
+
+Then do section 5 yourself.
+
+**Manual way:** work through the sections below in order. It takes about 15 minutes per repository.
 
 ## 1. Security features (do this first)
 
@@ -19,10 +30,11 @@ order**, ideally after the "Security hardening" pull request has been merged. It
 
 1. Click **New ruleset → Import a ruleset** and choose [`.github/rulesets/protect-main-and-develop.json`](../.github/rulesets/protect-main-and-develop.json)
    (download it from GitHub first). Check that the summary shows the rules below, then click **Create**.
-   - Applies to `main` and `develop`
-   - Blocks deletion and force-pushes, and requires linear history
+   - Applies to the default branch, `main` and `develop`
+   - Blocks deletion and force-pushes
    - Requires a pull request with 1 approval from the code owner. New pushes dismiss approvals, the most recent push
-     must be approved by someone else, conversations must be resolved, and only squash merge is allowed.
+     must be approved by someone else, and conversations must be resolved. Squash merge and merge commits are allowed
+     (merge commits for promoting `develop` into `main`).
    - Requires these checks to pass: tests on Windows, macOS and Linux, `dependency-audit`, `Analyze (python)`,
      `Analyze (actions)`, `dependency-review`
    - **Bypass:** only *Repository admin*, and only *for pull requests*. You can merge your own pull requests, since
@@ -41,8 +53,8 @@ order**, ideally after the "Security hardening" pull request has been merged. It
 
 **Settings → General → Pull Requests**
 
-- Untick **Allow merge commits** and **Allow rebase merging**. Keep **Allow squash merging**, set to
-  *Pull request title and description*.
+- Keep **Allow merge commits** and **Allow squash merging** (set to *Pull request title and description*), and
+  untick **Allow rebase merging**.
 - Tick **Always suggest updating pull request branches**.
 - Tick **Automatically delete head branches**.
 
