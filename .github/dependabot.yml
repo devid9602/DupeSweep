@@ -2,6 +2,7 @@ version: 2
 updates:
   # Keeps the SHA-pinned GitHub Actions up to date (one grouped pull request per week).
   - package-ecosystem: github-actions
+    target-branch: develop
     directory: /
     schedule:
       interval: weekly
@@ -13,6 +14,7 @@ updates:
 
   # Watches the dependency ranges. After merging, regenerate the hash locks with tools/update_locks.sh.
   - package-ecosystem: pip
+    target-branch: develop
     directory: /
     schedule:
       interval: weekly
