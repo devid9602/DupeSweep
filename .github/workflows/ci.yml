@@ -58,3 +58,29 @@ jobs:
             echo "== $lock"
             python -m pip_audit --require-hashes --disable-pip -r "$lock"
           done
+
+  # Fails a pull request that would stop DupeSweep from installing on macOS 12 (Intel or Apple Silicon)
+  # or that changes version ranges without matching lock files. Release builds rely on both.
+  compatibility:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --require-hashes -r requirements-dev.lock
+      - name: Ranges and lock files agree
+        run: python tools/check_locks_match.py
+      - name: Every app dependency has a macOS 12 build (Intel and Apple Silicon)
+        run: |
+          for platform in macosx_12_0_x86_64 macosx_12_0_arm64; do
+            echo "== $platform"
+            python -m pip download --require-hashes --only-binary=:all: --platform "$platform" \
+              --python-version 3.12 --implementation cp --abi cp312 -d "wheels-$platform" -r requirements.lock --quiet
+          done
+          echo "OK – all app dependencies install on macOS 12"

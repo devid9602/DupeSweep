@@ -20,5 +20,13 @@ updates:
     groups:
       python:
         patterns: ["*"]
+    ignore:
+      # Qt 6.9 and later need macOS 13+, and DupeSweep supports macOS 12 Monterey.
+      - dependency-name: "pyside6*"
+        versions: [">=6.9"]
+      - dependency-name: "shiboken6"
+        versions: [">=6.9"]
+      # rawpy has no Intel-Mac builds after 0.25.1, so its Intel-Mac pin must stay. Update rawpy by hand.
+      - dependency-name: "rawpy"
     commit-message:
       prefix: deps
