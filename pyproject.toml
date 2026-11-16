@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=84.2.1"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -9,7 +9,7 @@ description = "Find exact duplicates and edited versions of photos, safely (Wind
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.10"
-dependencies = ["numpy>=2.0", "Pillow>=10.3", "pillow-heif>=0.18", "PySide6-Essentials>=6.7,<6.9", "Send2Trash>=1.8"]
+dependencies = ["numpy>=2.2.6", "Pillow>=12.3.0", "pillow-heif>=1.8.1", "PySide6-Essentials>=6.12.0,<6.13", "Send2Trash>=2.2.0"]
 
 [project.urls]
 Homepage = "https://github.com/devid9602/DupeSweep"
@@ -17,9 +17,9 @@ Issues = "https://github.com/devid9602/DupeSweep/issues"
 Changelog = "https://github.com/devid9602/DupeSweep/blob/main/CHANGELOG.md"
 
 [project.optional-dependencies]
-raw = ["rawpy>=0.21"]
-dev = ["pytest>=8", "scikit-image>=0.24", "scikit-learn>=1.5", "pip-audit>=2.7"]
-build = ["pyinstaller>=6.10"]
+raw = ["rawpy>=0.27.1"]
+dev = ["pytest>=9.2.0", "scikit-image>=0.25.2", "scikit-learn>=1.7.2", "pip-audit>=2.10.1"]
+build = ["pyinstaller>=6.22.3"]
 
 [project.gui-scripts]
 dupesweep = "dupesweep.gui.app:main"
