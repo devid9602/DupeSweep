@@ -1,6 +1,11 @@
+# Runtime dependencies (version ranges). Builds and CI install the hash-locked
+# versions from requirements.lock instead – see CONTRIBUTING.md to update them.
 numpy>=2.0
 Pillow>=10.3
 pillow-heif>=0.18
+# Qt 6.9 and later dropped macOS 12 Monterey support.
 PySide6-Essentials>=6.7,<6.9
 Send2Trash>=1.8
-rawpy>=0.21
+# rawpy stopped shipping Intel-Mac builds after 0.25.1.
+rawpy>=0.21 ; sys_platform != "darwin" or platform_machine != "x86_64"
+rawpy==0.25.1 ; sys_platform == "darwin" and platform_machine == "x86_64"

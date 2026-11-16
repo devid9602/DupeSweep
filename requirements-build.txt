@@ -1,0 +1,2 @@
+# Tools used only to package the app (see .github/workflows/release.yml).
+pyinstaller>=6.10

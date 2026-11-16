@@ -3,6 +3,14 @@
 <p align="center"><b>Find exact duplicates and edited versions of your photos, and clean them up safely.</b><br>
 Free and open source for Windows, macOS and Linux.</p>
 
+<p align="center">
+<a href="https://github.com/devid9602/DupeSweep/actions/workflows/ci.yml"><img src="https://github.com/devid9602/DupeSweep/actions/workflows/ci.yml/badge.svg" alt="Tests"></a>
+<a href="https://github.com/devid9602/DupeSweep/actions/workflows/codeql.yml"><img src="https://github.com/devid9602/DupeSweep/actions/workflows/codeql.yml/badge.svg" alt="CodeQL"></a>
+<a href="https://scorecard.dev/viewer/?uri=github.com/devid9602/DupeSweep"><img src="https://api.scorecard.dev/projects/github.com/devid9602/DupeSweep/badge" alt="OpenSSF Scorecard"></a>
+<a href="https://github.com/devid9602/DupeSweep/releases/latest"><img src="https://img.shields.io/github/v/release/devid9602/DupeSweep" alt="Latest release"></a>
+<a href="LICENSE"><img src="https://img.shields.io/github/license/devid9602/DupeSweep" alt="Licence"></a>
+</p>
+
 ![DupeSweep results window](docs/screenshot-results.png)
 
 DupeSweep scans your photo folders and groups every copy of the same photograph, even when a copy has been
@@ -13,15 +21,23 @@ best-quality original to keep and never deletes anything by itself.
 
 Get the latest version from the **[Releases page](https://github.com/devid9602/DupeSweep/releases/latest)**.
 
-| System | File | How to start |
-|---|---|---|
-| Windows 10/11 | `DupeSweep-Windows-x64.zip` | Unzip, open the `DupeSweep` folder, run `DupeSweep.exe`. If SmartScreen appears: **More info → Run anyway**. |
-| macOS, Intel (12 Monterey or later) | `DupeSweep-macOS-Intel.zip` | Unzip, drag `DupeSweep.app` to Applications, then **right-click → Open** the first time. |
-| macOS, Apple Silicon | `DupeSweep-macOS-AppleSilicon.zip` | Same as above. |
-| Linux (x86-64) | `DupeSweep-Linux-x64.tar.gz` | Extract and run `DupeSweep/DupeSweep`. |
+| System | Requires | File | How to start |
+|---|---|---|---|
+| Windows | Windows 10 (1809 or later) or 11, 64-bit | `DupeSweep-Windows-x64.zip` | Unzip, open the `DupeSweep` folder, run `DupeSweep.exe`. If SmartScreen appears: **More info → Run anyway**. |
+| Mac with Intel processor | macOS 12 Monterey or later | `DupeSweep-macOS-Intel.zip` | Unzip, drag `DupeSweep.app` to Applications, then **right-click → Open** the first time. |
+| Mac with Apple Silicon (M1–M4) | macOS 12 Monterey or later | `DupeSweep-macOS-AppleSilicon.zip` | Same as above. |
+| Linux | 64-bit, glibc 2.35 or later (Ubuntu 22.04+, Debian 12+, Fedora 36+) | `DupeSweep-Linux-x64.tar.gz` | Extract and run `DupeSweep/DupeSweep`. |
 
-The downloads are not code-signed, so Windows and macOS show a one-time warning.
+The downloads are not code-signed yet, so Windows and macOS show a one-time warning.
 If macOS says the app is damaged, run `xattr -cr /Applications/DupeSweep.app` once in Terminal.
+
+**Check your download (optional).** Every release includes `SHA256SUMS.txt` and a signed record of how each file was
+built. With the [GitHub CLI](https://cli.github.com/) installed, this confirms that a file was built by this
+repository's release pipeline and hasn't been changed:
+
+```
+gh attestation verify DupeSweep-macOS-Intel.zip --repo devid9602/DupeSweep
+```
 
 ## What it finds
 
@@ -86,11 +102,19 @@ The automated tests build a photo library covering every scenario and run on Win
 ```bash
 git clone https://github.com/devid9602/DupeSweep.git
 cd DupeSweep
-python -m pip install -r requirements.txt     # Python 3.10 or newer
+python -m pip install --require-hashes -r requirements.lock     # Python 3.12, exact tested versions
 python run_dupesweep.py
 ```
 
-Run the tests with `python -m pip install -r requirements-dev.txt` and `python -m pytest`.
+Run the tests with `python -m pip install --require-hashes -r requirements-dev.lock` and then `python -m pytest`.
+
+## Contributing and security
+
+Contributions are welcome through pull requests. `main` and `develop` are protected, and every change needs passing
+checks and the maintainer's approval. See [CONTRIBUTING.md](CONTRIBUTING.md) and the
+[code of conduct](CODE_OF_CONDUCT.md).
+Please report security problems privately as described in [SECURITY.md](SECURITY.md).
+Changes between versions are listed in [CHANGELOG.md](CHANGELOG.md).
 
 ## Licence
 

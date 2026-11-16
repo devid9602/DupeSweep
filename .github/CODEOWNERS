@@ -1,2 +1,9 @@
-# Require @devid9602 review for changes to this branch.
+# Every change in this repository needs approval from the owner.
 * @devid9602
+
+# Called out explicitly: workflows, security policy and dependency locks.
+/.github/ @devid9602
+/SECURITY.md @devid9602
+/requirements*.txt @devid9602
+/requirements*.lock @devid9602
+/tools/ @devid9602
