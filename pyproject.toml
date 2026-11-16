@@ -9,7 +9,7 @@ description = "Find exact duplicates and edited versions of photos, safely (Wind
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.10"
-dependencies = ["numpy>=2.2.6", "Pillow>=12.3.0", "pillow-heif>=1.8.1", "PySide6-Essentials>=6.7,<6.9", "Send2Trash>=2.2.0"]
+dependencies = ["numpy>=2.2.6", "Pillow>=12.3.0", "pillow-heif>=1.8.1", "PySide6-Essentials>=6.8.3,<6.9", "Send2Trash>=2.2.0"]
 
 [project.urls]
 Homepage = "https://github.com/devid9602/DupeSweep"
